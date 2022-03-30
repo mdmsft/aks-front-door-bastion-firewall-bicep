@@ -1,0 +1,31 @@
+commonLabels:
+  app: hello-world
+
+resources:
+- namespace.yaml
+- deployment.yaml
+- service.yaml
+- ingress.yaml
+
+vars:
+- name: TENANT
+  objref:
+    kind: Namespace
+    name: default
+    apiVersion: v1
+- name: HOSTNAME
+  objref:
+    kind: ConfigMap
+    name: tenant
+    apiVersion: v1
+  fieldref:
+    fieldpath: data.HOSTNAME
+
+configMapGenerator:
+- name: tenant
+  namespace: default
+  envs: 
+    - .env
+
+generatorOptions:
+  disableNameSuffixHash: true

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-world
+spec:
+  replicas: 1
+  selector:
+  template:
+    spec:
+      containers:
+      - name: hello-world
+        image: mcr.microsoft.com/azuredocs/aks-helloworld:v1
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+        - name: TITLE
+          value: "Hello, $(TENANT)!"
+        resources:
+          limits:
+            cpu: 500m
+            memory: 128Mi
